@@ -30,7 +30,7 @@ app.post('/calculate', (req, res) => {
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Fallback all other GET requests to the React app
-app.get('*', (req, res) => {
+app.get('/*splat', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
