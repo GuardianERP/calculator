@@ -5,6 +5,16 @@ function App() {
   const [previousValue, setPreviousValue] = useState('')
   const [operation, setOperation] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode)
+    if (isDarkMode) {
+      document.body.classList.add('light-theme')
+    } else {
+      document.body.classList.remove('light-theme')
+    }
+  }
 
   const appendNumber = (number) => {
     if (number === '.' && currentValue.includes('.')) return
@@ -67,8 +77,15 @@ function App() {
   return (
     <div className="app-container">
       <header>
-        <h1>Nebula Calc</h1>
-        <p>Powered by Node.js Backend</p>
+        <div className="header-container">
+          <div className="header-title">
+            <h1>Nebula Calc</h1>
+            <p>Powered by Node.js Backend</p>
+          </div>
+          <button onClick={toggleTheme} className="theme-toggle-btn" title="Toggle Light/Dark Theme">
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
       </header>
 
       <div className="calculator-card">
