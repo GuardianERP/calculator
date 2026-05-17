@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -17,7 +18,6 @@ app.post('/calculate', (req, res) => {
         }
         
         // Evaluate the expression
-        // Note: In a real production app, use a proper math library like mathjs
         const result = eval(expression);
         
         res.json({ result });
@@ -26,6 +26,15 @@ app.post('/calculate', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// Serve client dist static files
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Fallback all other GET requests to the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
